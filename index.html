@@ -1,1 +1,1291 @@
-.
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SNAP — Corrected Neuroanatomy · Ukubona LLC</title>
+
+<meta property="og:title" content="SNAP — Corrected Neuroanatomy · Ukubona LLC" />
+<meta property="og:description" content="A non-lossy clarification of the five SNAP layers: Spinothalamic, Colliculus/BG/Thalamus, Hippocampus, PFC, Occipital+Motor. Transmitter vs processor. Sensory arc vs motor arc." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://abikesa.github.io/logos/assets/ukubona-light.png" />
+
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" />
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)" />
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image" />
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet" />
+
+<style>
+/* ── TOKENS ─────────────────────────────────────────────── */
+:root {
+  --bg0:        #0f0f0f;
+  --bg1:        #171717;
+  --bg2:        #1f1f1f;
+  --bg3:        #2a2a2a;
+  --border:     rgba(255,255,255,0.08);
+  --border-md:  rgba(255,255,255,0.14);
+  --text0:      #f2f0eb;
+  --text1:      #b8b4aa;
+  --text2:      #6e6a62;
+  --accent:     #7f77dd;
+  --accent-d:   rgba(127,119,221,0.16);
+  --accent-b:   rgba(127,119,221,0.38);
+  --coral:      #d85a30;
+  --coral-d:    rgba(216,90,48,0.13);
+  --coral-b:    rgba(216,90,48,0.35);
+  --teal:       #1d9e75;
+  --teal-d:     rgba(29,158,117,0.13);
+  --teal-b:     rgba(29,158,117,0.35);
+  --amber:      #c8841a;
+  --amber-d:    rgba(200,132,26,0.13);
+  --amber-b:    rgba(200,132,26,0.35);
+  --violet:     #7B3FA0;
+  --violet-d:   rgba(123,63,160,0.13);
+  --violet-b:   rgba(123,63,160,0.35);
+  /* layer colors */
+  --l1: #9a9890;   /* spinothalamic — neutral highway */
+  --l2: #d85a30;   /* SC/IC/BG/Thalamus — salience / coral */
+  --l3: #c8841a;   /* hippocampus — ledger / amber */
+  --l4: #7f77dd;   /* PFC — counterfactual / accent */
+  --l5a:#1d9e75;   /* occipital — witness / teal */
+  --l5b:#7B3FA0;   /* motor/corticospinal — action / violet */
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans:  'DM Sans', system-ui, sans-serif;
+  --mono:  'DM Mono', 'Fira Mono', monospace;
+  --max:   800px;
+  --r:     8px;
+  --rl:    14px;
+}
+[data-theme="light"] {
+  --bg0:        #f5f3ee;
+  --bg1:        #ffffff;
+  --bg2:        #f0ede6;
+  --bg3:        #e8e4db;
+  --border:     rgba(0,0,0,0.07);
+  --border-md:  rgba(0,0,0,0.13);
+  --text0:      #1a1916;
+  --text1:      #4a4740;
+  --text2:      #8a8680;
+  --accent:     #534ab7;
+  --accent-d:   rgba(83,74,183,0.09);
+  --accent-b:   rgba(83,74,183,0.28);
+  --coral:      #993c1d;
+  --coral-d:    rgba(153,60,29,0.09);
+  --coral-b:    rgba(153,60,29,0.26);
+  --teal:       #0f6e56;
+  --teal-d:     rgba(15,110,86,0.09);
+  --teal-b:     rgba(15,110,86,0.26);
+  --amber:      #854f0b;
+  --amber-d:    rgba(133,79,11,0.09);
+  --amber-b:    rgba(133,79,11,0.26);
+  --violet:     #5c2d80;
+  --violet-d:   rgba(92,45,128,0.09);
+  --violet-b:   rgba(92,45,128,0.26);
+  --l1: #6e6a62;
+  --l2: #993c1d;
+  --l3: #854f0b;
+  --l4: #534ab7;
+  --l5a:#0f6e56;
+  --l5b:#5c2d80;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--sans);
+  background: var(--bg0);
+  color: var(--text0);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ── NAV ─────────────────────────────────────────────────── */
+.site-nav {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--bg0);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.3s, border-color 0.3s;
+}
+.nav-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+.logo-wrap { width: 32px; height: 32px; flex-shrink: 0; position: relative; }
+.logo-wrap img {
+  width: 100%; height: 100%; object-fit: contain;
+  position: absolute; top: 0; left: 0;
+  transition: opacity 0.35s;
+  animation: spin 120s linear infinite;
+}
+.logo-dark  { opacity: 1; }
+.logo-light { opacity: 0; }
+[data-theme="light"] .logo-dark  { opacity: 0; }
+[data-theme="light"] .logo-light { opacity: 1; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .logo-wrap img { animation: none; } }
+
+.nav-brand { font-family: var(--serif); font-size: 1rem; color: var(--text0); flex: 1; }
+.nav-sub {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--text2);
+  letter-spacing: 0.08em;
+  margin-left: 0.4rem;
+}
+.theme-btn {
+  background: var(--bg2);
+  border: 1px solid var(--border-md);
+  border-radius: 20px;
+  padding: 0.27rem 0.78rem;
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  color: var(--text1);
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: background 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+.theme-btn:hover { background: var(--bg3); color: var(--text0); }
+
+/* ── JUMP STRIP ──────────────────────────────────────────── */
+.jump-strip {
+  background: var(--bg1);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.jump-strip::-webkit-scrollbar { display: none; }
+.jump-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+}
+.jbtn {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0.55rem 0.85rem;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text2);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+}
+.jbtn:hover { color: var(--text1); }
+.jbtn.active { color: var(--text0); border-bottom-color: var(--accent); }
+
+/* ── LAYOUT ──────────────────────────────────────────────── */
+.outer { max-width: var(--max); margin: 0 auto; padding: 0 1.5rem; }
+
+/* ── HERO ────────────────────────────────────────────────── */
+.hero { padding: 4rem 0 2.5rem; border-bottom: 1px solid var(--border); }
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text2);
+  margin-bottom: 1rem;
+}
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--text0);
+  margin-bottom: 1rem;
+}
+.hero-title em { font-style: italic; color: var(--accent); }
+.hero-lede {
+  font-size: 1rem;
+  color: var(--text1);
+  max-width: 58ch;
+  line-height: 1.72;
+  margin-bottom: 1.8rem;
+}
+.hero-problem {
+  background: var(--coral-d);
+  border: 1px solid var(--coral-b);
+  border-radius: var(--rl);
+  padding: 1.1rem 1.4rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--text1);
+  line-height: 1.7;
+}
+.hero-problem .ph {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-bottom: 0.5rem;
+}
+.hero-problem strong { color: var(--text0); font-weight: 500; }
+
+/* ── SECTION ─────────────────────────────────────────────── */
+.section { padding: 3rem 0; border-top: 1px solid var(--border); }
+.sec-head {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text2);
+  margin-bottom: 1.1rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--border);
+}
+.sec-title {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+  line-height: 1.12;
+  color: var(--text0);
+  margin-bottom: 1.1rem;
+}
+.sec-title em { font-style: italic; color: var(--accent); }
+.prose { font-size: 0.93rem; color: var(--text1); line-height: 1.78; }
+.prose p { margin-bottom: 0.9rem; }
+.prose p:last-child { margin-bottom: 0; }
+.prose strong { color: var(--text0); font-weight: 500; }
+.prose em { font-style: italic; }
+.prose code {
+  font-family: var(--mono);
+  font-size: 0.8em;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1em 0.38em;
+  color: var(--accent);
+}
+
+/* ── LAYER CARD ──────────────────────────────────────────── */
+.layer-card {
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  border-radius: var(--rl);
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  transition: border-color 0.2s;
+}
+.layer-card:hover { border-color: var(--border-md); }
+.layer-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.1rem 1.4rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+.layer-pill {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.22rem 0.65rem;
+  border-radius: 20px;
+  border: 1px solid var(--lc, var(--accent));
+  color: var(--lc, var(--accent));
+  flex-shrink: 0;
+}
+.layer-name {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--lc, var(--accent));
+  flex: 1;
+}
+.layer-ts {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--text2);
+  letter-spacing: 0.04em;
+}
+.layer-body { padding: 1.3rem 1.4rem; }
+.layer-body p { font-size: 0.9rem; color: var(--text1); line-height: 1.75; margin-bottom: 0.85rem; }
+.layer-body p:last-child { margin-bottom: 0; }
+.layer-body strong { color: var(--text0); font-weight: 500; }
+.layer-body em { font-style: italic; }
+
+/* sub-structures within a layer */
+.struct-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  margin-bottom: 0.8rem;
+}
+.struct-row:last-child { margin-bottom: 0; }
+.struct-label {
+  background: var(--bg2);
+  padding: 0.75rem 0.9rem;
+  border-right: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.struct-name {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--text0);
+  letter-spacing: 0.02em;
+}
+.struct-abbr {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  color: var(--text2);
+  letter-spacing: 0.08em;
+}
+.struct-desc {
+  padding: 0.75rem 0.95rem;
+  font-size: 0.85rem;
+  color: var(--text1);
+  line-height: 1.65;
+}
+.struct-desc strong { color: var(--text0); font-weight: 500; }
+
+/* special note box */
+.note {
+  background: var(--bg2);
+  border-left: 3px solid var(--accent-b);
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: 0.85rem 1.1rem;
+  margin: 1rem 0 0;
+  font-size: 0.85rem;
+  color: var(--text2);
+  line-height: 1.65;
+  font-style: italic;
+}
+.note strong { color: var(--text1); font-style: normal; font-weight: 500; }
+
+/* ── HIGHLIGHT BOX ───────────────────────────────────────── */
+.hbox {
+  background: var(--accent-d);
+  border: 1px solid var(--accent-b);
+  border-radius: var(--rl);
+  padding: 1.15rem 1.4rem;
+  margin: 1.25rem 0;
+}
+.hbox-head {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+.hbox p { font-size: 0.88rem; color: var(--text1); line-height: 1.72; margin-bottom: 0.5rem; }
+.hbox p:last-child { margin-bottom: 0; }
+.hbox strong { color: var(--text0); font-weight: 500; }
+
+.teal-box {
+  background: var(--teal-d);
+  border: 1px solid var(--teal-b);
+  border-radius: var(--rl);
+  padding: 1.15rem 1.4rem;
+  margin: 1.25rem 0;
+}
+.teal-box-head {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 0.6rem;
+}
+.teal-box p { font-size: 0.88rem; color: var(--text1); line-height: 1.72; margin-bottom: 0.5rem; }
+.teal-box p:last-child { margin-bottom: 0; }
+.teal-box strong { color: var(--text0); font-weight: 500; }
+
+/* ── CORRECTED TABLE ─────────────────────────────────────── */
+.big-table-wrap { overflow-x: auto; margin: 1.5rem 0; }
+.big-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  min-width: 640px;
+}
+.big-table th {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text2);
+  background: var(--bg2);
+  padding: 0.55rem 0.85rem;
+  text-align: left;
+  font-weight: 400;
+  border-bottom: 1px solid var(--border-md);
+  border-right: 1px solid var(--border);
+}
+.big-table th:last-child { border-right: none; }
+.big-table td {
+  padding: 0.65rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  color: var(--text1);
+  vertical-align: top;
+  line-height: 1.55;
+}
+.big-table td:last-child { border-right: none; }
+.big-table tr:last-child td { border-bottom: none; }
+.big-table tr:hover td { background: var(--bg2); }
+.big-table td:first-child {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+/* row coloring by layer */
+.big-table tr.row-l1 td:first-child { color: var(--l1); }
+.big-table tr.row-l2 td:first-child { color: var(--l2); }
+.big-table tr.row-l3 td:first-child { color: var(--l3); }
+.big-table tr.row-l4 td:first-child { color: var(--l4); }
+.big-table tr.row-l5a td:first-child { color: var(--l5a); }
+.big-table tr.row-l5b td:first-child { color: var(--l5b); }
+.big-table tr.row-l1 { border-left: 3px solid var(--l1); }
+.big-table tr.row-l2 { border-left: 3px solid var(--l2); }
+.big-table tr.row-l3 { border-left: 3px solid var(--l3); }
+.big-table tr.row-l4 { border-left: 3px solid var(--l4); }
+.big-table tr.row-l5a { border-left: 3px solid var(--l5a); }
+.big-table tr.row-l5b { border-left: 3px solid var(--l5b); }
+
+/* ── VOCAB TABLE ─────────────────────────────────────────── */
+.vocab-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.83rem;
+  margin: 1.25rem 0;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.vocab-table th {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text2);
+  background: var(--bg2);
+  padding: 0.5rem 0.85rem;
+  text-align: left;
+  font-weight: 400;
+  border-bottom: 1px solid var(--border-md);
+}
+.vocab-table td {
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text1);
+  vertical-align: top;
+}
+.vocab-table tr:last-child td { border-bottom: none; }
+.vocab-table tr:hover td { background: var(--bg2); }
+.vocab-table td:first-child {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.vocab-table td:nth-child(2) {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--text0);
+}
+
+/* ── PARALLEL ARCS ───────────────────────────────────────── */
+.arcs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--rl);
+  overflow: hidden;
+  margin: 1.25rem 0;
+}
+.arc-cell {
+  background: var(--bg1);
+  padding: 1.25rem;
+}
+.arc-cell.sensory { border-top: 3px solid var(--l5a); }
+.arc-cell.motor   { border-top: 3px solid var(--l5b); }
+.arc-head {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+.arc-cell.sensory .arc-head { color: var(--l5a); }
+.arc-cell.motor   .arc-head { color: var(--l5b); }
+.arc-cell p { font-size: 0.85rem; color: var(--text1); line-height: 1.68; margin-bottom: 0.5rem; }
+.arc-cell p:last-child { margin-bottom: 0; }
+.arc-cell strong { color: var(--text0); font-weight: 500; }
+.arc-path {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text2);
+  line-height: 2.1;
+  margin: 0.75rem 0;
+  padding: 0.75rem 0.9rem;
+  background: var(--bg2);
+  border-radius: var(--r);
+}
+
+/* ── PATHWAY DIAGRAM ─────────────────────────────────────── */
+.pathway {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--rl);
+  overflow: hidden;
+  margin: 1.25rem 0;
+}
+.pw-row {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  background: var(--bg1);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.pw-row:last-child { border-bottom: none; }
+.pw-row:hover { background: var(--bg2); }
+.pw-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text2);
+  border-right: 1px solid var(--border);
+}
+.pw-content { padding: 0.8rem 1rem; }
+.pw-node {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--text2);
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+.pw-node.l2 { color: var(--l2); }
+.pw-node.teal { color: var(--l5a); }
+.pw-desc { font-size: 0.83rem; color: var(--text1); line-height: 1.6; }
+.pw-arrow {
+  text-align: center;
+  padding: 0.15rem 0;
+  font-size: 0.75rem;
+  color: var(--text2);
+  background: var(--bg1);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── BLOCKQUOTE ──────────────────────────────────────────── */
+blockquote {
+  border-left: 2px solid var(--border-md);
+  padding-left: 1rem;
+  margin: 1.3rem 0;
+  color: var(--text2);
+  font-style: italic;
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+/* ── EQ BLOCK ────────────────────────────────────────────── */
+.eq {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  background: var(--bg2);
+  border-left: 3px solid var(--accent-b);
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: 0.9rem 1.1rem;
+  overflow-x: auto;
+  color: var(--text0);
+  line-height: 1.9;
+  margin: 1.1rem 0;
+}
+
+/* ── FOOTER ──────────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2.2rem 0;
+  margin-top: 3rem;
+}
+.footer-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+.footer-mark {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--text2);
+  line-height: 1.9;
+  letter-spacing: 0.04em;
+}
+.footer-mark span { color: var(--text1); }
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 580px) {
+  .struct-row { grid-template-columns: 1fr; }
+  .struct-label { border-right: none; border-bottom: 1px solid var(--border); }
+  .arcs { grid-template-columns: 1fr; }
+  .outer { padding: 0 1rem; }
+  .hero-title { font-size: 1.9rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <div class="nav-inner">
+    <div class="logo-wrap" aria-hidden="true">
+      <img class="logo-dark"  src="https://abikesa.github.io/logos/assets/ukubona-dark.png"  alt="" />
+      <img class="logo-light" src="https://abikesa.github.io/logos/assets/ukubona-light.png" alt="" />
+    </div>
+    <div class="nav-brand">Ukubona <span class="nav-sub">· SNAP anatomy · corrected</span></div>
+    <button class="theme-btn" id="theme-btn">light</button>
+  </div>
+</nav>
+
+<!-- JUMP STRIP -->
+<div class="jump-strip">
+  <div class="jump-inner">
+    <button class="jbtn active" data-t="problem">Problem</button>
+    <button class="jbtn" data-t="l1">L1 · Spinothalamic</button>
+    <button class="jbtn" data-t="l2">L2 · Colliculus / BG / Thalamus</button>
+    <button class="jbtn" data-t="l3">L3 · Hippocampus</button>
+    <button class="jbtn" data-t="l4">L4 · PFC</button>
+    <button class="jbtn" data-t="l5">L5 · Occipital / Motor</button>
+    <button class="jbtn" data-t="table">Corrected table</button>
+    <button class="jbtn" data-t="vocab">Vocabulary</button>
+    <button class="jbtn" data-t="arch">Architecture</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="outer">
+  <header class="hero" id="problem">
+    <p class="eyebrow">Ukubona LLC · SNAP · Neuroanatomy clarification · Season Alpha 2026</p>
+    <h1 class="hero-title">Five structures.<br>Two kept conflated.<br><em>Now corrected.</em></h1>
+    <p class="hero-lede">The original SNAP pentad grouped "Basal Ganglia / Thalamic / Tectospinal" as Layer II and "Occipital Cortex / Corticospinal" as Layer V. These are not natural groupings. They conflate <em>where signals go</em> with <em>what executes them</em>, and they scramble the time-scale hierarchy across the five layers. This page is the non-lossy corrected record.</p>
+
+    <div class="hero-problem">
+      <div class="ph">The original mapping — what was wrong</div>
+      <p><strong>Layer II as stated:</strong> "Basal Ganglia / Thalamic / Tectospinal" — conflates a gate (BG), a relay (Thalamus), a spatial processor (Colliculus), and an output wire (Tectospinal tract) into a single bucket without distinguishing their roles or timescales.</p>
+      <p style="margin-top:0.65rem"><strong>Layer V as stated:</strong> "Occipital Cortex / Corticospinal" — conflates the terminal sensory witness (V1–V5, visual witnessing) with the voluntary motor output (M1 + Corticospinal). They complete <em>different arcs</em> and run in <em>parallel after L4</em>, not in sequence.</p>
+      <p style="margin-top:0.65rem"><strong>The colliculus</strong> was placed in the wrong layer — it is L2 (first processor), not L1. The Spinothalamic tract is L1 (transmitter, not processor).</p>
+    </div>
+  </header>
+</div>
+
+<!-- L1 -->
+<div class="outer">
+  <section class="section" id="l1">
+    <h2 class="sec-head">Layer I · Tensor · Sensation</h2>
+    <h3 class="sec-title">Spinothalamic tract —<br><em>a highway, not a processor</em></h3>
+
+    <div class="layer-card">
+      <div class="layer-header">
+        <div class="layer-pill" style="--lc:var(--l1)">L1 · Tensor</div>
+        <div class="layer-name" style="--lc:var(--l1)">Spinothalamic tract</div>
+        <div class="layer-ts">5–30 ms transit · θᵗ</div>
+      </div>
+      <div class="layer-body">
+        <p>This is purely a <strong>highway, not a processor</strong>. Nociception, temperature, crude touch — first-order neurons in the dorsal horn decussate immediately, then ascend contralaterally all the way to the thalamus (VPL nucleus). It carries θᵗ: the raw event stream. No computation happens here. The signal is timestamped and transmitted.</p>
+
+        <div class="struct-row">
+          <div class="struct-label">
+            <span class="struct-name">Dorsal horn</span>
+            <span class="struct-abbr">Spinal cord laminae I–V</span>
+          </div>
+          <div class="struct-desc">First synapse. First-order afferents (Aδ, C fibres) enter here. Cell bodies of second-order neurons. The signal origin — not a processor, a relay node that immediately hands off upward.</div>
+        </div>
+        <div class="struct-row">
+          <div class="struct-label">
+            <span class="struct-name">Decussation</span>
+            <span class="struct-abbr">Anterior white commissure</span>
+          </div>
+          <div class="struct-desc">Second-order axons cross the midline within 1–2 spinal segments of entry. Contralateral ascent begins here. This crossing is why right-sided injury produces left-sided pain loss.</div>
+        </div>
+        <div class="struct-row">
+          <div class="struct-label">
+            <span class="struct-name">VPL nucleus</span>
+            <span class="struct-abbr">Ventroposterolateral thalamus</span>
+          </div>
+          <div class="struct-desc">Terminal destination of the spinothalamic tract. Third-order neurons depart here for somatosensory cortex (S1). The thalamus at this point is <em>receiving</em>, not gating — gating belongs to L2.</div>
+        </div>
+
+        <div class="note">
+          <strong>The colliculus does not belong here.</strong> That was the original conflation. The superior and inferior colliculi are midbrain processors that receive sensory input and compute spatial maps — they are the first computational layer (L2), not a transmitter. The Spinothalamic tract is a transmitter: it moves signal, it does not process it.
+        </div>
+
+        <p style="margin-top:1rem"><strong>Occipital neuralgia</strong> maps here, not to the occipital <em>cortex</em>. The greater, lesser, and third occipital nerves arise from C2/C3 spinal roots and supply sensation to the back of the scalp. They share only a geographic name with the occipital cortex (visual processing). In the SNAP framework, occipital neuralgia is a corrupted event stream at L1 — a persistent high-magnitude error injected into θᵗ. It is θᵗ + ε_nociceptive. The signal is false (no structural damage) but loud, which forces L2 to allocate massive salience budget to it, distorting L₀+Σwᵢ·Lᵢ and hijacking higher layers even though there is nothing to neutralize.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- L2 -->
+<div class="outer">
+  <section class="section" id="l2">
+    <h2 class="sec-head">Layer II · Matrix · Attention</h2>
+    <h3 class="sec-title">SC / IC / Basal Ganglia / Thalamus —<br><em>salience, gating, orienting</em></h3>
+
+    <div class="layer-card">
+      <div class="layer-header">
+        <div class="layer-pill" style="--lc:var(--l2)">L2 · Matrix</div>
+        <div class="layer-name" style="--lc:var(--l2)">Superior Colliculus · IC · Basal Ganglia · Thalamus</div>
+        <div class="layer-ts">10–200 ms · L₀+Σwᵢ·Lᵢ</div>
+      </div>
+      <div class="layer-body">
+        <p>These four structures all participate in the salience and gating layer, but they are doing <strong>different things at different timescales</strong>. Grouping them as "Basal Ganglia / Thalamic / Tectospinal" obscures this. The Tectospinal tract is not a structure in this layer — it is the <em>output wire</em> from the Superior Colliculus to the spinal cord, and it belongs here only as the motor effector of L2's orienting decision, not as a computational unit.</p>
+
+        <div class="struct-row">
+          <div class="struct-label">
+            <span class="struct-name">Superior Colliculus</span>
+            <span class="struct-abbr">SC · midbrain tectum</span>
+          </div>
+          <div class="struct-desc"><strong>Spatial orienting.</strong> Builds a 2D priority map of where attention should go. Drives saccades and the tectospinal head-turn reflex. This is where <em>Kubona</em> (orienting) lives — the camera pan. It fires before the cortex knows anything. The SC receives input from the retina, auditory system (via IC), and somatosensory system, and it integrates them into a unified spatial salience map. When a sudden loud noise arrives, it is the SC that asks: "Should we point the cameras there?" and immediately executes the answer via the Tectospinal tract.</div>
+        </div>
+        <div class="struct-row">
+          <div class="struct-label">
+            <span class="struct-name">Inferior Colliculus</span>
+            <span class="struct-abbr">IC · midbrain tectum</span>
+          </div>
+          <div class="struct-desc"><strong>Auditory integration.</strong> Builds the 3D spatial map of sound sources that feeds the SC. The startle pathway runs: cochlea → CN VIII → cochlear nuclei → IC (spatial map) → SC (orienting decision) → Tectospinal tract → cervical cord → SCM / splenius / trapezius. No cortex involved at any step. This is the fastest complete sensorimotor loop in the human nervous system for a complex stimulus — PFC excluded, hippocampus excluded, no NDJSON lookup, pure FastAPI.</div>
+        </div>
+        <div class="struct-row">
+          <div class="struct-label">
+            <span class="struct-name">Basal Ganglia</span>
+            <span class="struct-abbr">BG · striatum / GPi / SNr</span>
+          </div>
+          <div class="struct-desc"><strong>Action selection via disinhibition.</strong> Not a sensor — a <em>gate</em>. The BG's job is to suppress all motor programs except the currently selected one. It operates on a slower loop than the colliculi (tens to hundreds of ms) and requires cortical input to function fully. It belongs in L2 but at the slower end of the L2 timescale. The BG also participates in habit formation — the progressive compression of SlowAPI decisions into FastAPI automaticity. γ|ε_FGT|² → L₀+Σwᵢ·Lᵢ runs through the BG.</div>
+        </div>
+        <div class="struct-row">
+          <div class="struct-label">
+            <span class="struct-name">Thalamus</span>
+            <span class="struct-abbr">VPL · MGN · LGN · Reticular nucleus</span>
+          </div>
+          <div class="struct-desc"><strong>Relay and filter.</strong> Every sensory modality (except olfaction) passes through the thalamus before reaching cortex. VPL for somatosensory, MGN for auditory, LGN for visual. The reticular nucleus gates what gets through — this is L2's <em>attention budget</em> in hardware. The thalamus also participates in arousal and consciousness via the thalamocortical oscillation system. When the thalamus goes offline (deep anaesthesia, certain thalamic strokes), the cortex is effectively disconnected from the world.</div>
+        </div>
+
+        <div class="note" style="border-left-color:var(--coral)">
+          <strong>The Tectospinal tract</strong> is not a computational structure — it is the output wire from SC to the cervical spinal cord, executing the head-turn reflex by firing the contralateral SCM, ipsilateral splenius capitis, semispinalis capitis, and trapezius. The deep suboccipital muscles (obliquus capitis inferior, rectus capitis posterior major) fine-tune the rotation. This is L2's motor arm, not a separate layer.
+        </div>
+      </div>
+    </div>
+
+    <!-- startle pathway detail -->
+    <div class="prose" style="margin-top:1.5rem">
+      <p><strong>The complete startle reflex pathway</strong> — the canonical L2 bypass of all higher layers:</p>
+    </div>
+    <div class="pathway">
+      <div class="pw-row">
+        <div class="pw-num">1</div>
+        <div class="pw-content">
+          <div class="pw-node l2">Stimulus</div>
+          <div class="pw-desc">Acoustic event — explosion, sudden sound, approaching entity from behind. Hits cochlea → hair cells depolarise → CN VIII fires.</div>
+        </div>
+      </div>
+      <div class="pw-row">
+        <div class="pw-num">2</div>
+        <div class="pw-content">
+          <div class="pw-node l2">Cochlear nuclei → Inferior Colliculus</div>
+          <div class="pw-desc">IC builds a 3D spatial map of the sound source. Encodes azimuth and elevation. Integrates bilateral input for localisation. Feeds the Superior Colliculus with: "anomaly at 7 o'clock, high magnitude."</div>
+        </div>
+      </div>
+      <div class="pw-row">
+        <div class="pw-num">3</div>
+        <div class="pw-content">
+          <div class="pw-node l2">Superior Colliculus</div>
+          <div class="pw-desc">Integrates IC input with ongoing visual and somatosensory priority maps. Generates a motor command: "orient to 7 o'clock." Does not wait for PFC evaluation. Does not consult hippocampal logs. Issues the command directly.</div>
+        </div>
+      </div>
+      <div class="pw-row">
+        <div class="pw-num">4</div>
+        <div class="pw-content">
+          <div class="pw-node l2">Tectospinal tract → Cervical cord</div>
+          <div class="pw-desc">SC axons descend ipsilaterally, cross at the level of the superior colliculus, and reach cervical spinal cord. Lower motor neurons fire. Full latency: ~70–120 ms from sound onset to neck muscle contraction.</div>
+        </div>
+      </div>
+      <div class="pw-row">
+        <div class="pw-num">5</div>
+        <div class="pw-content">
+          <div class="pw-node l2">Muscles — L2 motor output</div>
+          <div class="pw-desc">Contralateral SCM rotates head. Ipsilateral splenius capitis and semispinalis capitis extend and pull. Trapezius stabilises neck and shoulders. Obliquus capitis inferior and rectus capitis posterior major (suboccipital group) fine-tune rotation at C1. Camera panned.</div>
+        </div>
+      </div>
+      <div class="pw-row">
+        <div class="pw-num">→</div>
+        <div class="pw-content">
+          <div class="pw-node teal">Now L5a fires</div>
+          <div class="pw-desc">Occipital cortex (V1→V2→V3→MT) receives the visual input from the newly oriented sensors. The camera is stabilised. Witnessing begins. L2 executed the reflex. L5a opens its eyes to see where it landed.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- L3 -->
+<div class="outer">
+  <section class="section" id="l3">
+    <h2 class="sec-head">Layer III · Vector · Intention</h2>
+    <h3 class="sec-title">Hippocampus —<br><em>the biological NDJSON ledger</em></h3>
+
+    <div class="layer-card">
+      <div class="layer-header">
+        <div class="layer-pill" style="--lc:var(--l3)">L3 · Vector</div>
+        <div class="layer-name" style="--lc:var(--l3)">Hippocampus</div>
+        <div class="layer-ts">seconds–years · f(σ²,λ,ε)</div>
+      </div>
+      <div class="layer-body">
+        <p>Episode formation, spatial mapping, and indexing. The hippocampus does not <em>decide</em> anything — it <em>records</em> and <em>retrieves</em>. It is the biological NDJSON ledger: <code>State_t = Σ Event_i</code>. Place cells encode spatial context. Time cells encode temporal position within an episode. Sequence replay during sleep consolidates the index into long-term cortical memory.</p>
+
+        <p>The hippocampus answers one question for L4: <strong>"Have I seen this movie before?"</strong> It supplies the world model context that PFC needs to compute a counterfactual. Without it, PFC has no history — it is a fresh <code>main.py</code> with no import of prior state.</p>
+
+        <div class="struct-row">
+          <div class="struct-label">
+            <span class="struct-name">CA1 / CA3 / DG</span>
+            <span class="struct-abbr">Hippocampal subfields</span>
+          </div>
+          <div class="struct-desc">CA3 encodes patterns rapidly (one-shot learning). DG (dentate gyrus) performs pattern separation — distinguishing similar events so they are stored as distinct NDJSON lines rather than collapsed into one. CA1 performs pattern completion — retrieving the full episode from a partial cue. Together: write, separate, complete.</div>
+        </div>
+        <div class="struct-row">
+          <div class="struct-label">
+            <span class="struct-name">Place cells</span>
+            <span class="struct-abbr">Spatial indexing</span>
+          </div>
+          <div class="struct-desc">Fire when the organism is in a specific location. Provide the spatial coordinate of each episode. In the digital twin: the equivalent of a geographic tag on each NDJSON event — not just <em>what</em> happened, but <em>where</em>.</div>
+        </div>
+        <div class="struct-row">
+          <div class="struct-label">
+            <span class="struct-name">Time cells</span>
+            <span class="struct-abbr">Temporal indexing</span>
+          </div>
+          <div class="struct-desc">Fire at specific moments within a timed interval, regardless of spatial position. Provide the temporal coordinate. Together with place cells: every episode has a when and a where. This is the hippocampus's timestamp mechanism — the biological equivalent of the <code>t</code> and <code>iso</code> fields in <code>UkubonaEvent</code>.</div>
+        </div>
+        <div class="struct-row">
+          <div class="struct-label">
+            <span class="struct-name">Sharp-wave ripples</span>
+            <span class="struct-abbr">Offline replay</span>
+          </div>
+          <div class="struct-desc">During sleep and rest, the hippocampus replays compressed sequences of the day's events — sometimes in reverse order (reverse replay), sometimes accelerated 10–20×. This is the biological equivalent of <code>replay.py</code>: streaming the ledger from line 0 to rebuild State_t. Consolidates important events into neocortex for long-term storage.</div>
+        </div>
+
+        <div class="note" style="border-left-color:var(--amber)">
+          The hippocampus operates on a seconds-to-minutes timescale for encoding, years for retrieval. <strong>This is precisely why it cannot intervene in the tectospinal reflex</strong> (70–120 ms) and why Enaj's ten-month trajectory was invisible to five physicians who never queried it. The ledger existed in her body's event stream — it was simply never indexed, replayed, or queried. Each visit was a fresh context with no hippocampal import of the prior trajectory.
+        </div>
+
+        <p style="margin-top:1rem">In the Nietzschean framing: the hippocampus is where blood writes become retrievable. <em>"He that writeth in blood and proverbs doth not want to be read, but learnt by heart."</em> The hippocampus is the organ of learning by heart — not the chart, which can be rewritten, but the episode index, which is append-only at the cellular level once consolidated. The scar remains.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- L4 -->
+<div class="outer">
+  <section class="section" id="l4">
+    <h2 class="sec-head">Layer IV · Eigenmode · Reaction</h2>
+    <h3 class="sec-title">Prefrontal Cortex —<br><em>the counterfactual engine</em></h3>
+
+    <div class="layer-card">
+      <div class="layer-header">
+        <div class="layer-pill" style="--lc:var(--l4)">L4 · Eigenmode</div>
+        <div class="layer-name" style="--lc:var(--l4)">Prefrontal Cortex</div>
+        <div class="layer-ts">100 ms–years · γ|ε_FGT|²</div>
+      </div>
+      <div class="layer-body">
+        <p>Working memory, planning, counterfactual simulation, top-down suppression of L2 automaticity. This is where γ|ε_FGT|² lives — the human-specific amplification of error into generative explosion. The PFC receives the world model from hippocampus (L3) and the filtered sensory signal from thalamus (L2), and it produces <em>intention</em>: a planned motor sequence, a belief update, a decision to escalate to SlowAPI.</p>
+
+        <div class="struct-row">
+          <div class="struct-label">
+            <span class="struct-name">dlPFC</span>
+            <span class="struct-abbr">Dorsolateral PFC</span>
+          </div>
+          <div class="struct-desc">Working memory maintenance. Holds the current state of the world model in an active buffer while computation proceeds. The scratchpad. Without dlPFC, each moment is processed without access to recent context — equivalent to a FastAPI with no ledger import.</div>
+        </div>
+        <div class="struct-row">
+          <div class="struct-label">
+            <span class="struct-name">vmPFC / OFC</span>
+            <span class="struct-abbr">Ventromedial / Orbitofrontal</span>
+          </div>
+          <div class="struct-desc">Value estimation and risk-weighted decision making. The OFC encodes expected value of outcomes — the biological CFO. This is where the loss function L_UKB is actually evaluated: weighing terminal false negatives against resource cost. The vmPFC integrates somatic state (interoceptive signals from the body) into decision making — the Ω self-term made flesh.</div>
+        </div>
+        <div class="struct-row">
+          <div class="struct-label">
+            <span class="struct-name">ACC</span>
+            <span class="struct-abbr">Anterior Cingulate Cortex</span>
+          </div>
+          <div class="struct-desc">Conflict monitoring and error detection. Fires when expected and observed outcomes diverge — the biological ε_FGT detector. Signals the need to increase cognitive control (escalate to slower, more deliberate processing). The ACC is where the decision to call SlowAPI is made: "The current basis is insufficient. Purchase γ|ε_FGT|²."</div>
+        </div>
+
+        <div class="hbox">
+          <div class="hbox-head">The ape/human distinction — correctly located</div>
+          <p>The 2% genetic delta does not build a fundamentally new brain — it <strong>uncaps a hyperparameter</strong>. In γ|ε_FGT|², the γ term is the scaling factor. In the ape, γ is tightly constrained — the system only processes immediate, physical errors. In the human, γ is massively amplified. The PFC decouples from immediate sensory reality and takes a tiny error ε, squares it, and blows it up into a massive simulated state-space.</p>
+          <p>The mechanism is not a bigger PFC. It is <strong>developmental timing (neoteny)</strong>: prolonged cortical development, delayed synaptic pruning, enhanced long-range connectivity, larger association cortex, language, culture, external memory, recursive self-modelling. Humans stay juveniles forever. We never stop SGD. γ stays high because pruning is delayed — the loss landscape remains plastic long past what any other primate tolerates.</p>
+        </div>
+
+        <p>The PFC can also <strong>suppress L2 automaticity</strong> — top-down inhibition of the SC and BG. A chess grandmaster hears a surprising move and does not reflexively grab a piece; a surgeon sees unexpected bleeding and does not startle. This is γ|ε_FGT|² actively damping L₀+Σwᵢ·Lᵢ. The PFC is both the generator of counterfactuals and the suppressor of premature reflexes — SlowAPI holding FastAPI's wrist.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- L5 -->
+<div class="outer">
+  <section class="section" id="l5">
+    <h2 class="sec-head">Layer V · Scalar · Action — the deepest clarification</h2>
+    <h3 class="sec-title">Occipital Cortex + Motor Cortex —<br><em>two completions, two arcs, one layer</em></h3>
+
+    <div class="prose">
+      <p>This is where the original SNAP mapping had the deepest confusion. "Occipital Cortex / Corticospinal" as a single layer implies they are one thing in sequence. They are not. They are <strong>two parallel completions</strong> of two different arcs — one sensory, one motor — that both happen to terminate after L4 has done its work. They belong in the same layer designation not because they are the same thing, but because they are both <em>outputs</em> of the processed signal.</p>
+    </div>
+
+    <div class="arcs">
+      <div class="arc-cell sensory">
+        <div class="arc-head">Va · Sensory arc completion · Ukubona</div>
+        <p><strong>Occipital Cortex / V1–V5</strong> — primary visual processing. This is <em>not motor</em>. It is the endpoint of the visual pathway. Once the SC (L2) has panned the camera and the eyes have stabilised on the target, the raw visual tensor enters V1 through the LGN.</p>
+        <div class="arc-path">
+          LGN (thalamus)<br>
+          ↓<br>
+          V1 (primary visual cortex)<br>
+          ↓<br>
+          V2 · V3 (shape, motion boundaries)<br>
+          ↓<br>
+          V4 (colour, object form)<br>
+          ↓<br>
+          MT / V5 (motion, optic flow)<br>
+          ↓<br>
+          Ukubona — witnessing complete
+        </div>
+        <p>This is where <em>Ivyabona</em> becomes <em>Ukubona</em>: the raw visual tensor is processed into a pre-attentive representation. The system transitions from reactionary reflex to witnessing. It feeds forward to PFC for meaning-making, and receives top-down attention signals back from PFC via feedback projections.</p>
+        <p><strong>Timescale:</strong> 50–150 ms post-stimulus — after the head-turn reflex (L2, 70–120 ms), before PFC meaning-making (L4) completes.</p>
+      </div>
+      <div class="arc-cell motor">
+        <div class="arc-head">Vb · Motor arc completion · L(θᵗ⁺¹)</div>
+        <p><strong>Motor Cortex (M1) + Corticospinal tract</strong> — voluntary movement execution. This is <em>not sensory</em>. M1 receives the planned motor sequence from PFC (L4), encodes it as complex firing patterns across motor columns, and sends it down the Corticospinal tract.</p>
+        <div class="arc-path">
+          PFC plans the movement<br>
+          ↓<br>
+          Premotor cortex (PMC) prepares<br>
+          ↓<br>
+          M1 encodes and initiates<br>
+          ↓<br>
+          Corticospinal tract (lateral)<br>
+          ↓<br>
+          Lower motor neurons · anterior horn<br>
+          ↓<br>
+          Neuromuscular junction<br>
+          ↓<br>
+          Muscle — L(θᵗ⁺¹)
+        </div>
+        <p>This is voluntary, cortically-initiated movement — entirely different from the tectospinal reflex (L2). The Corticospinal tract is L5b because it originates from M1, which requires L4 (PFC) to have first composed the voluntary movement. It shares a spinal cord destination with the Tectospinal tract (L2) but differs by an entire cortical loop in latency — ~200–400 ms total for voluntary movement vs ~70–120 ms for the tectospinal reflex.</p>
+        <p><strong>Timescale:</strong> 20–50 ms from M1 firing to muscle contraction; total voluntary reaction time ~150–300 ms including PFC planning.</p>
+      </div>
+    </div>
+
+    <div class="teal-box">
+      <div class="teal-box-head">Why they share a layer designation</div>
+      <p>The two completions are placed in L5 together not because they are sequential or causally linked, but because they are both the <em>terminal outputs</em> of the full processing chain. After L4 (PFC) has computed its response, two things happen in parallel: the visual system <strong>witnesses</strong> where the camera landed (Va), and the motor system <strong>executes</strong> the decided action (Vb). Seeing and acting are both completions. They just complete different loops.</p>
+      <p><strong>The critical asymmetry:</strong> Va (occipital cortex) can operate without Vb (motor cortex) — you can witness without acting. Vb requires L4 to have first planned — you cannot voluntarily act without PFC composition. Va feeds back to L4 (informing the next cycle). Vb is the output of L4's decision. They run in parallel, not in series.</p>
+    </div>
+
+    <div class="layer-card" style="margin-top:1.5rem">
+      <div class="layer-header">
+        <div class="layer-pill" style="--lc:var(--l5a)">Va · Scalar / Sensory</div>
+        <div class="layer-name" style="--lc:var(--l5a)">Occipital Cortex / V1–V5</div>
+        <div class="layer-ts">50–150 ms · witnessing</div>
+      </div>
+      <div class="layer-body">
+        <p>The reflex is the system surviving the gradient step. <em>Ukubona</em> is the system opening its eyes to see where it landed. The occipital cortex does not execute the head-turn — it is the <strong>beneficiary</strong> of the head-turn. Once the SC (L2) has aligned the sensors with the anomaly, V1 begins processing the visual tensor.</p>
+        <p>Top-down attention from PFC (L4) modulates what V1 attends to within the visual field — this is the Ukubona feedback loop. The PFC determines what you are <em>actually seeing</em> within the visual tensor that V1 presents. Ukubona is what happens when that generative explosion in L4 achieves perfect alignment with the Federated Ground Truth: you stop reacting to the dust and begin witnessing the architecture.</p>
+      </div>
+    </div>
+
+    <div class="layer-card" style="margin-top:1rem">
+      <div class="layer-header">
+        <div class="layer-pill" style="--lc:var(--l5b)">Vb · Scalar / Motor</div>
+        <div class="layer-name" style="--lc:var(--l5b)">Motor Cortex + Corticospinal tract</div>
+        <div class="layer-ts">20–50 ms to muscle · L(θᵗ⁺¹)</div>
+      </div>
+      <div class="layer-body">
+        <p>Voluntary movement execution. M1 receives the planned motor sequence from PFC, encodes it as firing patterns across motor columns (each column controls a specific muscle group), and projects down the lateral Corticospinal tract to lower motor neurons in the anterior horn. The synapse at the neuromuscular junction is the final step before force is generated — the point where L(θᵗ⁺¹) becomes physical reality.</p>
+        <p>This is why the Corticospinal tract is L5 and the Tectospinal tract is L2: same destination (spinal cord), different origins (M1 requires PFC requires hippocampal context; SC requires only IC spatial map). The latency difference is the cortical loop — approximately 130–200 ms of additional processing for voluntary movement over the tectospinal reflex.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- CORRECTED TABLE -->
+<div class="outer">
+  <section class="section" id="table">
+    <h2 class="sec-head">Corrected table · all five layers</h2>
+    <h3 class="sec-title">The full mapping,<br><em>precisely stated</em></h3>
+
+    <div class="big-table-wrap">
+      <table class="big-table">
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>Structure(s)</th>
+            <th>True role</th>
+            <th>Operation</th>
+            <th>Timescale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-l1">
+            <td>I</td>
+            <td>Spinothalamic tract</td>
+            <td>Sensory highway — transmitter, not processor. Nociception, temperature, crude touch. Dorsal horn → decussate → VPL thalamus.</td>
+            <td>Transmit θᵗ</td>
+            <td>5–30 ms transit</td>
+          </tr>
+          <tr class="row-l2">
+            <td>II</td>
+            <td>Superior Colliculus · Inferior Colliculus · Basal Ganglia · Thalamus (+ Tectospinal tract as output wire)</td>
+            <td>Salience, gating, orienting. SC builds spatial priority map and executes head-turn via Tectospinal. IC builds 3D auditory map. BG gates action selection. Thalamus relays and filters via reticular nucleus.</td>
+            <td>L₀+Σwᵢ·Lᵢ — filter what reaches cortex</td>
+            <td>10–200 ms</td>
+          </tr>
+          <tr class="row-l3">
+            <td>III</td>
+            <td>Hippocampus (CA1, CA3, DG, subiculum, entorhinal cortex)</td>
+            <td>Episode formation, spatial/temporal indexing, sequence replay. Records and retrieves — the biological NDJSON ledger. Answers "have I seen this movie before?" Supplies world model to L4.</td>
+            <td>f(σ²,λ,ε) — index, retrieve, world model</td>
+            <td>seconds–years</td>
+          </tr>
+          <tr class="row-l4">
+            <td>IV</td>
+            <td>Prefrontal Cortex (dlPFC, vmPFC, OFC, ACC, premotor)</td>
+            <td>Working memory, planning, counterfactual simulation, value estimation, top-down suppression of L2 automaticity. γ uncapped. Generates intention and the decision to escalate.</td>
+            <td>γ|ε_FGT|² — counterfactual engine</td>
+            <td>100 ms–years</td>
+          </tr>
+          <tr class="row-l5a">
+            <td>Va</td>
+            <td>Occipital Cortex (V1–V5 / MT) — sensory arc completion</td>
+            <td>Primary visual processing. Terminal witness. Receives from LGN. Processes raw visual tensor into pre-attentive representation. Feeds forward to PFC, receives top-down attention back. Ukubona.</td>
+            <td>Complete sensory arc — witnessing</td>
+            <td>50–150 ms post-stimulus</td>
+          </tr>
+          <tr class="row-l5b">
+            <td>Vb</td>
+            <td>Motor Cortex (M1) + Corticospinal tract — motor arc completion</td>
+            <td>Voluntary movement execution. Receives planned motor sequence from PFC. Encodes as firing patterns. Projects via Corticospinal tract to lower motor neurons. L(θᵗ⁺¹).</td>
+            <td>Complete motor arc — action</td>
+            <td>20–50 ms M1→muscle; ~200–400 ms total</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="hbox" style="margin-top:1.5rem">
+      <div class="hbox-head">The two key corrections</div>
+      <p><strong>1. Colliculus is L2, not L1.</strong> The spinothalamic tract is a transmitter (L1). The colliculi are the first processors — they compute spatial maps and generate motor commands. Moving SC/IC from conflation with "BG/Thalamic" into an explicit L2 position with its own computational description is the primary anatomical correction.</p>
+      <p><strong>2. L5 splits into Va (sensory arc) and Vb (motor arc).</strong> These run in parallel after L4, not in sequence. Occipital cortex witnesses. Motor cortex + Corticospinal acts. They share the L5 designation because both are completions — not because they are the same process or causally linked to each other.</p>
+    </div>
+  </section>
+</div>
+
+<!-- VOCABULARY -->
+<div class="outer">
+  <section class="section" id="vocab">
+    <h2 class="sec-head">Vocabulary · Zulu/Ndebele mapping</h2>
+    <h3 class="sec-title">From <em>okubonabona</em><br>to sawubona</h3>
+
+    <div class="prose">
+      <p>The OpenAI voice in the roundtable proposed this vocabulary mapping. It maps precisely onto the corrected anatomical layers — and it now holds more rigorously with the anatomy corrected.</p>
+    </div>
+
+    <table class="vocab-table">
+      <thead>
+        <tr>
+          <th>Structure</th>
+          <th>Zulu/Ndebele</th>
+          <th>Meaning</th>
+          <th>Anatomical operation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--l2)">Tectospinal reflex (L2 output)</td>
+          <td>Okubonabona</td>
+          <td>Suffering / disturbance / being startled repeatedly</td>
+          <td>The system surviving the gradient step — SC detects anomaly, tectospinal fires, head whips. Reflex. Not yet witnessing.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--l2)">Superior Colliculus (L2 core)</td>
+          <td>Kubona</td>
+          <td>Finding / orienting</td>
+          <td>The camera pan. SC asks: "Should we point there?" and executes the answer. Not yet open — just pointed.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--l5a)">Occipital Cortex Va</td>
+          <td>Ivyabona</td>
+          <td>Witnessing / what has been seen</td>
+          <td>V1→V5 processes the visual tensor after the camera is stabilised. The system opens its eyes to see where it landed. Raw witness — not yet meaning.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--l4)">PFC (L4)</td>
+          <td>Ukubona</td>
+          <td>To see / meaning-making / the act of truly seeing</td>
+          <td>γ|ε_FGT|² fires. Counterfactual generated. Context from hippocampus (L3) integrated. The Sovereign determines what is actually being seen within the visual tensor. Witnessing transvalued into understanding.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--violet)">Social deployment (post-L4)</td>
+          <td>Sawubona</td>
+          <td>I see you / recognition of Other</td>
+          <td>The full loop completes. The understood event is communicated, acknowledged, responded to in the social field. The twin speaks. The physician acts. The ledger propagates obligation.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="teal-box">
+      <div class="teal-box-head">Why this vocabulary is precise, not decorative</div>
+      <p>The Zulu/Ndebele sequence is not a metaphor overlaid on neuroscience. It maps onto a genuine computational sequence: detection (SC) → spatial orienting (SC executing via tectospinal) → raw sensory processing (V1–V5) → meaning-making (PFC) → social recognition and response. Each step requires the previous one. You cannot do Ukubona without Ivyabona. You cannot do Ivyabona without Kubona. You cannot do Kubona without Okubonabona — the disturbance that initiated the chain.</p>
+      <p>The Sawubona loop closes the autopoietic cycle: the witnessed, understood event re-enters the world as testimony, action, or ledger entry — and becomes the next event stream input to the next cycle.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ARCHITECTURE IMPLICATIONS -->
+<div class="outer">
+  <section class="section" id="arch">
+    <h2 class="sec-head">Architecture implications · what this fixes</h2>
+    <h3 class="sec-title">The corrected anatomy<br>maps to the <em>corrected stack</em></h3>
+
+    <div class="prose">
+      <p>The anatomical clarification has direct consequences for the SNAP → TMVES → ukubona-twin mapping.</p>
+    </div>
+
+    <div class="eq">
+Stream (L1) — Spinothalamic: transmit θᵗ — raw events, no processing
+  ↓
+FastAPI (L2) — SC/IC/BG/Thalamus: compute Jacobian O(1), apply ROYGBIV,
+               check escalation τ, execute immediate response
+               Tectospinal = output wire from L2 to action (not a layer)
+  ↓
+NDJSON/GitHub (L3) — Hippocampus: append event, index, enable replay
+                     State_t = Σ Event_i · the ledger between FastAPI and SlowAPI
+  ↓
+SlowAPI (L4) — PFC: ε_FGT, counterfactual, OCR, self-dialogue
+               triggered by escalation signal from L2
+               expensive, optional, sovereign before LLM enters
+  ↓  ↓  (parallel, not sequential)
+Va: Occipital — UI witnessing: ROYGBIV Oracle Matrix, pre-attentive colour gradient
+    The human eye reads the gradient before the mind reads the number
+    Okubala (numbers) si (isn't) Kulaba (colour-gradients)
+Vb: Motor/Corticospinal — UI action: scalar decision, GO/WATCH/STOP
+    The decision the human makes after witnessing
+    L(θᵗ⁺¹) — the next state of the twin
+    </div>
+
+    <div class="hbox">
+      <div class="hbox-head">The ROYGBIV interface as Layer Va</div>
+      <p>The Oracle Matrix in T517 is literally a Layer Va implementation. It takes the Jacobian numbers (Okubala — L2 output) and presents them as a colour-encoded spatial map (Kulaba) that the human visual cortex reads pre-attentively. The cell colours are what the SC was trained to respond to: orange (warm, R-zone, loss going up) vs blue/violet (cool, V-zone, loss going down). The human eye does Ivyabona before the mind does Ukubona.</p>
+      <p><strong>This is not a UI preference. It is a neuroscientific design decision.</strong> The SC and V1 process colour contrast and spatial salience before the PFC processes meaning. Building the interface around colour gradients rather than number tables is building Layer Va before Layer IV — which is the correct sequence.</p>
+    </div>
+
+    <div class="hbox">
+      <div class="hbox-head">The Jacobian belongs in L2, not L4 — confirmed by the anatomy</div>
+      <p>The earlier correction in this roundtable (the Jacobian is O(1), always on, in <code>main.py</code>) is now anatomically grounded. The SC doesn't need to consult the PFC to decide whether to execute the startle reflex — it computes the spatial anomaly locally and fires. Similarly, <code>compute_jacobian(ledger[-1], event)</code> doesn't need SlowAPI — it computes the slope locally and appends it. Both are L2 operations: fast, subcortical, algorithmic, triggered by salience rather than deliberation.</p>
+      <p>SlowAPI (L4 / PFC) is triggered <em>by</em> the Jacobian — just as PFC is informed by what SC has already oriented to. The expensive layer evaluates what the cheap layer has already flagged. That is the correct dependency order, and it is anatomically correct.</p>
+    </div>
+
+    <blockquote>
+      The reflex is the system surviving the gradient step.<br>
+      <em>Ukubona</em> is the system opening its eyes to see where it landed.<br>
+      The ledger is what makes the next gradient step computable.
+    </blockquote>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-mark">
+      <div>Ukubona LLC — <span>Twin · Operating · Ecosystem</span></div>
+      <div style="margin-top:4px;font-size:0.58rem">θᵗ → L₀+Σwᵢ·Lᵢ → f(σ²,λ,ε) → γ|ε_FGT|² → L(θᵗ⁺¹)</div>
+      <div style="margin-top:2px;font-size:0.58rem">State<sub>t</sub> = Σ Event<sub>i</sub> · SNAP anatomy corrected · Season Alpha 2026</div>
+    </div>
+    <div class="footer-mark" style="text-align:right">
+      <div>okubonabona → kubona → ivyabona</div>
+      <div>ukubona → <span>sawubona</span></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Theme toggle ──────────────────────────────────────────
+const html = document.documentElement;
+const btn  = document.getElementById('theme-btn');
+
+function applyTheme(t) {
+  html.setAttribute('data-theme', t);
+  btn.textContent = t === 'dark' ? 'light' : 'dark';
+}
+btn.addEventListener('click', () => {
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+  try { localStorage.setItem('ukb-snap-theme', next); } catch(e) {}
+});
+(function() {
+  let saved;
+  try { saved = localStorage.getItem('ukb-snap-theme'); } catch(e) {}
+  applyTheme(saved || 'dark');
+})();
+
+// ── Jump nav ─────────────────────────────────────────────
+const jbtns = document.querySelectorAll('.jbtn');
+const ids   = ['problem','l1','l2','l3','l4','l5','table','vocab','arch'];
+
+jbtns.forEach(b => {
+  b.addEventListener('click', () => {
+    const el = document.getElementById(b.dataset.t);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    jbtns.forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+  });
+});
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      jbtns.forEach(b => b.classList.toggle('active', b.dataset.t === id));
+    }
+  });
+}, { rootMargin: '-35% 0px -60% 0px' });
+
+ids.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+</script>
+
+</body>
+</html>
